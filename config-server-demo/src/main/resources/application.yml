@@ -1,3 +1,10 @@
 spring:
   application:
     name: config-server-demo
+    cloud:
+      config:
+        server:
+          git:
+            uri: https://example.com/my/repo
+            skipSslValidation: true
+            timeout: 4
