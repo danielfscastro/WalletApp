@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/wallet/pom.xml" />
         <option value="$PROJECT_DIR$/config-server-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/config-server/pom.xml" />
       </list>
     </option>
   </component>

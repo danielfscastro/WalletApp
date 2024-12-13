@@ -1,0 +1,42 @@
+server:
+  port: 8080  # Sets the server port to 8080
+
+spring:
+  profiles:
+    # active: native  # Uncomment this line to activate the native profile
+    active: git  # Set the active Spring profile to 'git'
+  application:
+    name: "config-server"  # Names the Spring application as "config-server"
+  cloud:
+    config:
+      server:  # Configuration settings for the Spring Cloud Config server
+        # native:  # Uncomment this section to use native file-based configuration
+        # search-locations: "classpath:/config"  # Uncomment to search configuration in classpath
+        # search-locations: "file:///Users/eazybytes/Documents/config"  # Uncomment to search in a local directory
+        git:
+          uri: "https://github.com/danielfscastro/config-files.git"  # URI of the Git repository for configuration
+          default-label: main  # Sets the default label (branch) to use from the Git repository
+          timeout: 5  # Timeout for Git operations in seconds
+          clone-on-start: true  # Clone the repository when the application starts
+          force-pull: true  # Force pull the latest configuration from the repository on each startup
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Expose all management endpoints over the web
+  health:
+    readiness-state:
+      enabled: true  # Enable checks for readiness state, indicating if the service is ready to handle requests
+    liveness-state:
+      enabled: true  # Enable checks for liveness state, indicating if the service is alive and running
+  endpoint:
+    health:
+      probes:
+        enabled: true  # Enable health probes for monitoring (used for readiness and liveness checks)
+
+logging:
+  level:
+    org.springframework.boot.actuator: DEBUG  # Set detailed logging level for Spring Boot Actuator
+    org.springframework.cloud: DEBUG  # Set detailed logging level for Spring Cloud
+    org.springframework: INFO  # Set logging level to INFO for general Spring framework logging

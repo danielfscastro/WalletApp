@@ -1,0 +1,19 @@
+services:
+  network-deploy-service:  # Service responsible for deploying network
+    networks:
+      - wallet-app  # Network that this service connects to
+
+  microservice-base-config:  # Service that extends network-deploy-service
+    extends:
+      service: network-deploy-service  # Inherits configuration from network-deploy-service
+    deploy:
+      resources:
+        limits:
+          memory: 700m  # Sets the memory limit for this service
+
+  microservice-config-server:  # Service for configuring Spring
+    extends:
+      service: microservice-base-config  # Inherits configuration from microservice-base-config
+    environment:  # Environment variables for this service
+      SPRING_PROFILES_ACTIVE: default  # Sets the active Spring profile
+      SPRING_CONFIG_IMPORT: configserver:http://config-server-ms:8080/  # URL for the Spring Config Server

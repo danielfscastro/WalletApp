@@ -4,6 +4,7 @@ import com.demo.wallet.constants.WalletConstants;
 import com.demo.wallet.dto.*;
 import com.demo.wallet.service.ITransactionService;
 import com.demo.wallet.service.IWalletService;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,9 @@ public class WalletController {
     private IWalletService iWalletService;
     @Autowired
     private ITransactionService iTransactionService;
+
+    @Value("${build.version}")
+    private String buildVersion;
 
     @Operation(
             summary = "Create Wallet REST API",
@@ -203,6 +208,34 @@ public class WalletController {
                 buildResponseEntity(HttpStatus.OK, WalletConstants.STATUS_200, WalletConstants.MESSAGE_200) :
                 buildResponseEntity(HttpStatus.EXPECTATION_FAILED, WalletConstants.STATUS_417, WalletConstants.MESSAGE_417_UPDATE);
     }
+
+    @Operation(
+            summary = "Get Build information",
+            description = "Get Build information that is deployed into wallet microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @Retry(name = "getBuildInfo",fallbackMethod = "getBuildInfoFallback")
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo() {
+        logger.debug("getBuildInfo() method Invoked");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(buildVersion);
+    }
+
 
     private ResponseEntity<ResponseDto> buildResponseEntity(HttpStatus status, String statusCode, String message) {
         return ResponseEntity

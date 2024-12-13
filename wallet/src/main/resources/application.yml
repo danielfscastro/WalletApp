@@ -1,38 +1,71 @@
 server:
-  port: 8080
+  # Port on which the server will listen for requests
+  port: 8081
+  # Strategy for handling forwarded headers; 'framework' specifies to use Spring's built-in handling
   forward-headers-strategy: framework
+
 spring:
   application:
+    # Name of the Spring application
     name: "wallet"
   profiles:
+    # Active profile for the application, used for different configurations (e.g., dev, prod)
     active: "dev"
+
   datasource:
+    # JDBC URL for connecting to an H2 in-memory database
     url: jdbc:h2:mem:testdb
+    # Driver class name for the H2 database
     driverClassName: org.h2.Driver
+    # Username for the database
     username: sa
+    # Password for the database (leave empty for H2)
     password: ''
+
   h2:
     console:
+      # Enable H2 database console for web access
       enabled: true
+
   jpa:
     hibernate:
+      # Setting to automatically update the database schema
       ddl-auto: update
+    # Show SQL statements in the console/logs
     show-sql: true
+
+  config:
+    # Import configuration from a config server, if available
+    import: optional:configserver:http://localhost:8080
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        # Expose all management endpoints over the web
+        include: "*"  # Allows all management endpoints to be accessible via HTTP
+  health:
+    readiness-state:
+      enabled: true  # Enable readiness checks to determine if the service is ready to handle requests
+    liveness-state:
+      enabled: true  # Enable liveness checks to verify if the service is running
+    endpoint:
+      shutdown:  # Configuration for the shutdown endpoint
+        enabled: true  # Enable the shutdown endpoint for graceful shutdowns
+      health:
+        probes:
+          enabled: true  # Enable health probes for detailed health checks
 
 info:
   app:
+    # Metadata about the application
     name: "wallet"
     description: "demo"
     version: "1.0.0"
 
 logging:
   level:
+    # Set log levels for different packages
     com:
       demo:
         wallet: ERROR
@@ -42,6 +75,46 @@ logging:
       springdoc: ERROR
 
   pattern:
+    # Custom log pattern for displaying log information
     level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
 
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      # Maximum number of calls to track for the circuit breaker state
+      slidingWindowSize: 10
+      # Number of calls allowed in half-open state before transitioning to closed
+      permittedNumberOfCallsInHalfOpenState: 2
+      # The threshold for the failure rate to open the circuit (in percentage)
+      failureRateThreshold: 50
+      # Duration (in milliseconds) the circuit remains open before transitioning to half-open state
+      waitDurationInOpenState: 10000
+
+resilience4j.retry:
+  configs:
+    default:
+      # Maximum number of retry attempts before failing
+      maxAttempts: 3
+      # Duration (in milliseconds) to wait before the next retry
+      waitDuration: 500
+      # Enable exponential backoff in the wait duration between retries
+      enableExponentialBackoff: true
+      # The multiplier for the exponential backoff
+      exponentialBackoffMultiplier: 2
+      # Exceptions to ignore during retry
+      ignoreExceptions:
+        - java.lang.NullPointerException
+      # Exceptions that will trigger a retry
+      retryExceptions:
+        - java.util.concurrent.TimeoutException
+
+resilience4j.ratelimiter:
+  configs:
+    default:
+      # Maximum time (in milliseconds) to wait for acquiring a permit
+      timeoutDuration: 1000
+      # Duration (in milliseconds) for which the rate limiter refreshes
+      limitRefreshPeriod: 5000
+      # Maximum number of requests that can be made within the limit refresh period
+      limitForPeriod: 1

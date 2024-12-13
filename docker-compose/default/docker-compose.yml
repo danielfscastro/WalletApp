@@ -1,0 +1,65 @@
+services:
+  kafka:  # Kafka service configuration
+    image: docker.io/bitnami/kafka:3.7  # Specifies the Kafka Docker image to use
+    ports:
+      - "9092:9092"  # Maps port 9092 on the host to port 9092 on the container
+    volumes:
+      - "kafka_data:/bitnami"  # Mounts a volume for Kafka data persistence
+    environment:  # Environment variables for Kafka configuration
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=0  # Node ID for the Kafka broker
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker  # Process roles for KRaft mode
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093  # Quorum voters for the controller
+      # Listeners configuration
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093  # Configures listeners
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092  # Advertised listeners for clients
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT  # Security protocols
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER  # Names of the controller listeners
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT  # Listener name for inter-broker communication
+    extends:
+      file: common-config.yml  # Loads additional configuration from common-config.yml
+      service: network-deploy-service  # Extends the network-deploy-service
+
+  configserver:  # Configuration server service
+    image: "danielfscastro/config-server:s1"  # Docker image for the Config Server
+    container_name: config-server-ms  # Name for the container
+    ports:
+      - "8080:8080"  # Maps port 8080 on the host to port 8080 on the container
+    healthcheck:  # Health check configuration for the service
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"  # Command to check readiness
+      interval: 20s  # Interval between health checks
+      timeout: 5s  # Timeout for each health check
+      retries: 2  # Number of retries before considering the service unhealthy
+      start_period: 10s  # Delay before starting health checks
+    extends:
+      file: common-config.yml  # Loads additional configuration from common-config.yml
+      service: microservice-base-config  # Extends the microservice-base-config settings
+
+  wallet:  # Wallet microservice configuration
+    image: "danielfscastro/wallet:s1"  # Docker image for the Wallet service
+    container_name: wallet-ms  # Named container for easier management
+    ports:
+      - "8081:8081"  # Maps port 8081 on the host to port 8081 in the container
+    healthcheck:  # Health check configuration to monitor the service's readiness
+      test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"  # Command to check if the service is healthy
+      interval: 20s  # How often to perform the health check
+      timeout: 5s  # Maximum time to wait for a health check response
+      retries: 2  # Number of retries before considering the service unhealthy
+      start_period: 10s  # Initial delay before starting health checks
+    depends_on:  # Dependencies on other services
+      configserver:  # This service depends on the configserver
+        condition: service_healthy  # Ensures wallet starts only after configserver is healthy
+    environment:  # Environment variables for configuring the service
+      SPRING_APPLICATION_NAME: "wallet"  # Name of the Spring application
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"  # Kafka broker URL for message binding
+    extends:
+      file: common-config.yml
+      service: microservice-config-server
+
+volumes:
+  kafka_data:  # Definition of the Kafka data volume
+    driver: local  # Specifies using the local driver for volume storage
+
+networks:
+  wallet-app:  # Definition of the wallet-app network
+    driver: "bridge"  # Uses the bridge network driver
