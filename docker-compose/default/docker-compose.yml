@@ -35,13 +35,33 @@ services:
       file: common-config.yml  # Loads additional configuration from common-config.yml
       service: microservice-base-config  # Extends the microservice-base-config settings
 
-  wallet:  # Wallet microservice configuration
-    image: "danielfscastro/wallet:s1"  # Docker image for the Wallet service
+  eurekaserver:
+    image: "danielfscastro/eurekaserver:s1"
+    container_name: eurekaserver-ms
+    ports:
+      - "8079:8079"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8079/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+
+  customer:  # Customer microservice configuration
+    image: "danielfscastro/customer:s1"  # Docker image for the Wallet service
     container_name: wallet-ms  # Named container for easier management
     ports:
       - "8081:8081"  # Maps port 8081 on the host to port 8081 in the container
     healthcheck:  # Health check configuration to monitor the service's readiness
-      test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"  # Command to check if the service is healthy
+      test: "curl --fail --silent localhost:8082/actuator/health/readiness | grep UP || exit 1"  # Command to check if the service is healthy
       interval: 20s  # How often to perform the health check
       timeout: 5s  # Maximum time to wait for a health check response
       retries: 2  # Number of retries before considering the service unhealthy
@@ -49,12 +69,37 @@ services:
     depends_on:  # Dependencies on other services
       configserver:  # This service depends on the configserver
         condition: service_healthy  # Ensures wallet starts only after configserver is healthy
+      eurekaserver:
+        condition: service_healthy
     environment:  # Environment variables for configuring the service
       SPRING_APPLICATION_NAME: "wallet"  # Name of the Spring application
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"  # Kafka broker URL for message binding
     extends:
       file: common-config.yml
-      service: microservice-config-server
+      service: microservice-eureka-config
+
+  wallet:  # Wallet microservice configuration
+    image: "danielfscastro/wallet:s1"  # Docker image for the Wallet service
+    container_name: wallet-ms  # Named container for easier management
+    ports:
+      - "8082:8082"  # Maps port 8081 on the host to port 8081 in the container
+    healthcheck:  # Health check configuration to monitor the service's readiness
+      test: "curl --fail --silent localhost:8082/actuator/health/readiness | grep UP || exit 1"  # Command to check if the service is healthy
+      interval: 20s  # How often to perform the health check
+      timeout: 5s  # Maximum time to wait for a health check response
+      retries: 2  # Number of retries before considering the service unhealthy
+      start_period: 10s  # Initial delay before starting health checks
+    depends_on:  # Dependencies on other services
+      configserver:  # This service depends on the configserver
+        condition: service_healthy  # Ensures wallet starts only after configserver is healthy
+      eurekaserver:
+        condition: service_healthy
+    environment:  # Environment variables for configuring the service
+      SPRING_APPLICATION_NAME: "wallet"  # Name of the Spring application
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"  # Kafka broker URL for message binding
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
 
 volumes:
   kafka_data:  # Definition of the Kafka data volume

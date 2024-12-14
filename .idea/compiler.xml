@@ -7,8 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="eurekaserver" />
         <module name="config-server" />
         <module name="wallet" />
+        <module name="customer" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +18,8 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="config-server" options="-parameters" />
       <module name="config-server-demo" options="-parameters" />
+      <module name="customer" options="-parameters" />
+      <module name="eurekaserver" options="-parameters" />
       <module name="wallet" options="-parameters" />
     </option>
   </component>

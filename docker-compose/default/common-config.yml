@@ -17,3 +17,9 @@ services:
     environment:  # Environment variables for this service
       SPRING_PROFILES_ACTIVE: default  # Sets the active Spring profile
       SPRING_CONFIG_IMPORT: configserver:http://config-server-ms:8080/  # URL for the Spring Config Server
+
+  microservice-eureka-config:
+    extends:
+      service: microservice-configserver-config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8079/eureka/
