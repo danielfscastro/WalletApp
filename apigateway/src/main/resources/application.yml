@@ -1,0 +1,46 @@
+server:
+    port: 8000  # Port on which the server will listen for requests
+    forward-headers-strategy: framework  # Strategy for handling forwarded headers
+
+spring:
+    application:
+        name: "apigateway"  # Name of the Spring application
+    profiles:
+        active: "dev"  # Active profile for the application (development profile)
+
+    config:
+        import: optional:configserver:http://localhost:8080  # Import configuration from a config server
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"  # Expose all management endpoints over the web
+    info:
+        env:
+            enabled: true  # Enable environment information in the info endpoint
+    health:
+        readiness-state:
+            enabled: true  # Enable readiness checks
+        liveness-state:
+            enabled: true  # Enable liveness checks
+        endpoint:
+            shutdown:
+                enabled: true  # Enable the shutdown endpoint
+            health:
+                probes:
+                    enabled: true  # Enable health probes for detailed checks
+
+eureka:
+    instance:
+        preferIpAddress: true  # Prefer IP address for registration
+    client:
+        fetchRegistry: true  # Fetch registration from the Eureka server
+        registerWithEureka: true  # Register the service with Eureka
+        serviceUrl:
+            defaultZone: http://localhost:8079/eureka/  # Eureka server URL
+
+info:
+    app:
+        name: "apigateway"  # Application name for the info endpoint
+        description: "ApiGateway Application"  # Description of the application
