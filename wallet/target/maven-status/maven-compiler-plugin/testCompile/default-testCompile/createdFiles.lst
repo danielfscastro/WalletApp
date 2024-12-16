@@ -1,6 +1,6 @@
-com\demo\wallet\dto\CustomerBalanceAtDtoTest.class
-com\demo\wallet\dto\TransactionHistoryDtoTest.class
-com\demo\wallet\dto\TransactionDtoTest.class
-com\demo\wallet\dto\TransferTransactionDtoTest.class
-com\demo\wallet\dto\CustomerDtoTest.class
-com\demo\wallet\dto\WalletDtoTest.class
+com\demo\customer\dto\TransactionHistoryDtoTest.class
+com\demo\customer\dto\TransferTransactionDtoTest.class
+com\demo\customer\dto\CustomerDtoTest.class
+com\demo\customer\dto\WalletDtoTest.class
+com\demo\customer\dto\CustomerBalanceAtDtoTest.class
+com\demo\customer\dto\TransactionDtoTest.class

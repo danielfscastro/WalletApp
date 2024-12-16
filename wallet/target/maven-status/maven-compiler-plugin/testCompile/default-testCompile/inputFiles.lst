@@ -1,6 +1,6 @@
-D:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\wallet\dto\CustomerBalanceAtDtoTest.java
-D:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\wallet\dto\CustomerDtoTest.java
-D:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\wallet\dto\TransactionDtoTest.java
-D:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\wallet\dto\TransactionHistoryDtoTest.java
-D:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\wallet\dto\TransferTransactionDtoTest.java
-D:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\wallet\dto\WalletDtoTest.java
+C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\customer\dto\CustomerBalanceAtDtoTest.java
+C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\customer\dto\CustomerDtoTest.java
+C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\customer\dto\TransactionDtoTest.java
+C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\customer\dto\TransactionHistoryDtoTest.java
+C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\customer\dto\TransferTransactionDtoTest.java
+C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\test\java\com\demo\customer\dto\WalletDtoTest.java
