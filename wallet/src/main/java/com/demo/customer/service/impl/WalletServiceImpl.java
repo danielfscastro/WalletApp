@@ -53,7 +53,7 @@ public class WalletServiceImpl implements IWalletService {
     }
 
     @Override
-    public CustomerDto fetchWallet(String document) {
+    public CustomerDto fetchWallet(String document, String correlationId) {
         Customer customer = customerRepository.findByDocument(document).orElseThrow(
                 () -> new ResourceNotFoundException("Customer", "document", document)
         );

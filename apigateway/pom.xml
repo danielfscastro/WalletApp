@@ -50,6 +50,11 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.uuid</groupId>
+			<artifactId>java-uuid-generator</artifactId>
+			<version>5.1.0</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

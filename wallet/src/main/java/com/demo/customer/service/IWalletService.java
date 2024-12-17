@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public interface IWalletService {
     public void create(CustomerDto customerDto);
 
-    public CustomerDto fetchWallet(String document);
+    public CustomerDto fetchWallet(String document, String correlationId);
 
     public WalletDto fetchWalletAt(LocalDate localDate, String document);
 }
