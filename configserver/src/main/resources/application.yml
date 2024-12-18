@@ -6,7 +6,7 @@ spring:
     # active: native  # Uncomment this line to activate the native profile
     active: git  # Set the active Spring profile to 'git'
   application:
-    name: "config-server"  # Names the Spring application as "config-server"
+    name: "configserver"  # Names the Spring application as "config-server"
   cloud:
     config:
       server:  # Configuration settings for the Spring Cloud Config server
