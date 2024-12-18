@@ -20,6 +20,13 @@ import java.math.BigDecimal;
 )
 public class TransactionDto {
 
+    @NotNull(message = "Customer Number cannot be null")
+    @Positive(message = "Customer number value must be a positive number")
+    @Schema(
+            description = "Customer Number", example = "1234567890N"
+    )
+    private Long customerNumber;
+
     @NotEmpty(message = "Document cannot be null or empty")
     @Size(max = 14, message = "Document must be at most 14 characters")
     @Schema(description = "Customer Document", example = "12345678901234")

@@ -22,8 +22,8 @@ public class ApiGatewayRouter {
 
         return routeLocatorBuilder.routes()
                 .route(
-                    route -> route.path("/fakepay/costumer/**")
-                            .filters(filter -> filter.rewritePath("/fakepay/costumer/(?<segment>.*)", "/${segment}")
+                    route -> route.path("/fakepay/customer/**")
+                            .filters(filter -> filter.rewritePath("/fakepay/customer/(?<segment>.*)", "/${segment}")
                                     .filter(responseTimeHeaderFilter))
                             .uri("lb://CUSTOMER")
                 )

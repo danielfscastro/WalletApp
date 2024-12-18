@@ -25,7 +25,9 @@ public class TransferTransactionDtoTest {
     @Test
     public void testValidTransferTransactionDto() {
         TransferTransactionDto dto = new TransferTransactionDto(
+                12345L,
                 "12345678901234",
+                12345L,
                 "12345678901234",
                 new BigDecimal("100.00")
         );
@@ -37,7 +39,9 @@ public class TransferTransactionDtoTest {
     @Test
     public void testDocumentOriginShouldNotBeEmpty() {
         TransferTransactionDto dto = new TransferTransactionDto(
+                12345L,
                 "",
+                12345L,
                 "12345678901234",
                 new BigDecimal("100.00")
         );
@@ -50,7 +54,9 @@ public class TransferTransactionDtoTest {
     @Test
     public void testDocumentDestinationShouldNotBeEmpty() {
         TransferTransactionDto dto = new TransferTransactionDto(
+                12345L,
                 "12345678901234",
+                12345L,
                 "",
                 new BigDecimal("100.00")
         );
@@ -64,7 +70,9 @@ public class TransferTransactionDtoTest {
     public void testDocumentSizeConstraint() {
         // Test too short document
         TransferTransactionDto dto1 = new TransferTransactionDto(
+                12345L,
                 "1234",
+                12345L,
                 "12345678901234111",
                 new BigDecimal("100.00")
         );
@@ -75,7 +83,9 @@ public class TransferTransactionDtoTest {
 
         // Test too long document
         TransferTransactionDto dto2 = new TransferTransactionDto(
+                12345L,
                 "1234567890123456",
+                12345L,
                 "12345678901234",
                 new BigDecimal("100.00")
         );
@@ -88,7 +98,9 @@ public class TransferTransactionDtoTest {
     @Test
     public void testTransactionValueShouldNotBeNull() {
         TransferTransactionDto dto = new TransferTransactionDto(
+                12345L,
                 "12345678901234",
+                12345L,
                 "12345678901234",
                 null
         );
@@ -101,7 +113,9 @@ public class TransferTransactionDtoTest {
     @Test
     public void testTransactionValueMustBeGreaterThanZero() {
         TransferTransactionDto dto = new TransferTransactionDto(
+                12345L,
                 "12345678901234",
+                12345L,
                 "12345678901234",
                 new BigDecimal("0.00") // 0 is not allowed
         );

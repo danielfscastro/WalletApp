@@ -20,10 +20,24 @@ import java.math.BigDecimal;
 )
 public class TransferTransactionDto {
 
+    @NotNull(message = "Customer Number Origin cannot be null")
+    @Positive(message = "Customer number value must be a positive number")
+    @Schema(
+            description = "Customer Number Origin", example = "1234567890N"
+    )
+    private Long customerNumberOrigin;
+
     @NotEmpty(message = "Document cannot be null or empty")
     @Size(max = 14, message = "Document must be at most 14 characters")
     @Schema(description = "Customer Document to withdraw", example = "12345678901234")
     private String documentOrigin;
+
+    @NotNull(message = "Customer Number Destination cannot be null")
+    @Positive(message = "Customer number value must be a positive number")
+    @Schema(
+            description = "Customer Number Destination", example = "1234567890N"
+    )
+    private Long customerNumberDestination;
 
     @NotEmpty(message = "Document cannot be null or empty")
     @Size(max = 14, message = "Document must be at most 14 characters")

@@ -6,9 +6,8 @@ import com.demo.customer.dto.WalletDto;
 import java.time.LocalDate;
 
 public interface IWalletService {
-    public void create(CustomerDto customerDto);
+    public void create(WalletDto wallet);
 
-    public CustomerDto fetchWallet(String document, String correlationId);
+    public WalletDto fetchWallet(Long customerNumber, String correlationId);
 
-    public WalletDto fetchWalletAt(LocalDate localDate, String document);
 }

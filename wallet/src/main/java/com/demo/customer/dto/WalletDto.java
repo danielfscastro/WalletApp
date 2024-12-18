@@ -1,8 +1,7 @@
 package com.demo.customer.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -14,12 +13,12 @@ import java.math.BigDecimal;
 )
 public class WalletDto {
 
-    @NotNull(message = "Wallet Number cannot be null")
-    @Digits(integer = 10, fraction = 0, message = "Wallet Number must be a 10-digit number")
+    @NotNull(message = "Customer Number cannot be null")
+    @Positive(message = "Customer number value must be a positive number")
     @Schema(
-            description = "Wallet Number", example = "3454433243"
+            description = "Customer Number", example = "1234567890N"
     )
-    private Long walletNumber;
+    private Long customerNumber;
 
     @NotNull(message = "Balance cannot be null")
     @Digits(integer = 18, fraction = 8, message = "Balance must be a number with up to 10 total digits and 2 decimal places")

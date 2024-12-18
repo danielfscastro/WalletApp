@@ -61,8 +61,8 @@ public class WalletController {
     }
     )
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> create(@Valid @RequestBody CustomerDto customer) {
-        iWalletService.create(customer);
+    public ResponseEntity<ResponseDto> create(@Valid @RequestBody WalletDto wallet) {
+        iWalletService.create(wallet);
 
         return buildResponseEntity(HttpStatus.CREATED, WalletConstants.STATUS_201, WalletConstants.MESSAGE_201);
     }
@@ -86,10 +86,10 @@ public class WalletController {
     }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDto> fetch(@RequestHeader("wallet-correlation-id") String correlationId,
-                                             @RequestParam String document) {
-        CustomerDto customerDto = iWalletService.fetchWallet(document, correlationId);
-        return ResponseEntity.status(HttpStatus.OK).body(customerDto);
+    public ResponseEntity<WalletDto> fetch(@RequestHeader("wallet-correlation-id") String correlationId,
+                                             @RequestParam Long customerNumber) {
+        WalletDto walletDto = iWalletService.fetchWallet(customerNumber, correlationId);
+        return ResponseEntity.status(HttpStatus.OK).body(walletDto);
     }
 
     @Operation(

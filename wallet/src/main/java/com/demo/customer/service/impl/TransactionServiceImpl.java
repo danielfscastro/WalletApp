@@ -5,12 +5,10 @@ import com.demo.customer.constants.WalletConstants;
 import com.demo.customer.dto.CustomerBalanceAtDto;
 import com.demo.customer.dto.TransactionDto;
 import com.demo.customer.dto.TransferTransactionDto;
-import com.demo.customer.entity.Customer;
 import com.demo.customer.entity.TransactionHistory;
 import com.demo.customer.entity.Wallet;
 import com.demo.customer.exception.ResourceNotFoundException;
 import com.demo.customer.exception.TransactionHistoryNotFoundException;
-import com.demo.customer.repository.CustomerRepository;
 import com.demo.customer.repository.TransactionHistoryRepository;
 import com.demo.customer.repository.WalletRepository;
 import com.demo.customer.service.ITransactionService;
@@ -33,16 +31,11 @@ public class TransactionServiceImpl implements ITransactionService {
     private static final Logger log = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
     private WalletRepository walletRepository;
-    private CustomerRepository customerRepository;
     private TransactionHistoryRepository transactionHistoryRepository;
 
     @Override
     public boolean deposit(TransactionDto transactionDto) {
-        Customer customer = customerRepository.findByDocument(transactionDto.getDocument()).orElseThrow(
-                () -> new ResourceNotFoundException("Customer", "document", transactionDto.getDocument())
-        );
-
-        Wallet wallet = walletRepository.findByCustomerNumber(customer.getCustomerNumber()).orElseThrow(
+        Wallet wallet = walletRepository.findByCustomerNumber(transactionDto.getCustomerNumber()).orElseThrow(
                 () -> new ResourceNotFoundException("Wallet", "document", transactionDto.getDocument())
         );
 
@@ -50,18 +43,14 @@ public class TransactionServiceImpl implements ITransactionService {
         wallet.setBalance(savedBalance);
         Wallet savedWallet = walletRepository.save(wallet);
 
-        transactionHistoryRepository.save(buildTransationHistoryDTO(transactionDto,customer, TransactionType.DEPOSIT));
+        transactionHistoryRepository.save(buildTransationHistoryDTO(transactionDto, TransactionType.DEPOSIT));
 
         return true;
     }
 
     @Override
     public boolean withdraw(TransactionDto transactionDto) {
-        Customer customer = customerRepository.findByDocument(transactionDto.getDocument()).orElseThrow(
-                () -> new ResourceNotFoundException("Customer", "document", transactionDto.getDocument())
-        );
-
-        Wallet wallet = walletRepository.findByCustomerNumber(customer.getCustomerNumber()).orElseThrow(
+        Wallet wallet = walletRepository.findByCustomerNumber(transactionDto.getCustomerNumber()).orElseThrow(
                 () -> new ResourceNotFoundException("Wallet", "document", transactionDto.getDocument())
         );
 
@@ -69,16 +58,16 @@ public class TransactionServiceImpl implements ITransactionService {
         wallet.setBalance(savedBalance);
         Wallet savedWallet = walletRepository.save(wallet);
 
-        transactionHistoryRepository.save(buildTransationHistoryDTO(transactionDto,customer, TransactionType.WITHDRAW));
+        transactionHistoryRepository.save(buildTransationHistoryDTO(transactionDto, TransactionType.WITHDRAW));
 
         return true;
     }
 
     @Override
     public CustomerBalanceAtDto fetchBalanceAt(String document, LocalDate date) {
-        Customer customer = customerRepository.findByDocument(document).orElseThrow(
-                () -> new ResourceNotFoundException("Customer", "document", document)
-        );
+        /**
+         * TODO:// validate if customer exists
+         */
 
         CustomerBalanceAtDto customerBalanceAtDto = new CustomerBalanceAtDto();
         customerBalanceAtDto.setDocument(document);
@@ -103,19 +92,12 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public boolean transfer(TransferTransactionDto transferTransactionDto) {
-        Customer customerOrigin = customerRepository.findByDocument(transferTransactionDto.getDocumentOrigin()).orElseThrow(
-                () -> new ResourceNotFoundException("Customer Origin", "documentOrigin", transferTransactionDto.getDocumentOrigin())
-        );
 
-        Customer customerDestination = customerRepository.findByDocument(transferTransactionDto.getDocumentDestination()).orElseThrow(
-                () -> new ResourceNotFoundException("Customer Destination", "documentDestination", transferTransactionDto.getDocumentDestination())
-        );
-
-        Wallet walletOrigin = walletRepository.findByCustomerNumber(customerOrigin.getCustomerNumber()).orElseThrow(
+        Wallet walletOrigin = walletRepository.findByCustomerNumber(transferTransactionDto.getCustomerNumberOrigin()).orElseThrow(
                 () -> new ResourceNotFoundException("Wallet Origin", "documentOrigin", transferTransactionDto.getDocumentOrigin())
         );
 
-        Wallet walletDestination = walletRepository.findByCustomerNumber(customerDestination.getCustomerNumber()).orElseThrow(
+        Wallet walletDestination = walletRepository.findByCustomerNumber(transferTransactionDto.getCustomerNumberDestination()).orElseThrow(
                 () -> new ResourceNotFoundException("Wallet Destination", "documentDestination", transferTransactionDto.getDocumentDestination())
         );
 
@@ -128,21 +110,20 @@ public class TransactionServiceImpl implements ITransactionService {
         Wallet savedWalletOrigin = walletRepository.save(walletOrigin);
         Wallet savedWalletDestination = walletRepository.save(walletDestination);
 
-        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto,customerOrigin, TransactionType.WITHDRAW));
-        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto,customerDestination, TransactionType.DEPOSIT));
+        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.WITHDRAW));
+        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.DEPOSIT));
 
         return true;
     }
 
     private TransactionHistory buildTransationHistoryDTO(TransactionDto transactionDto,
-                                                         Customer customer,
                                                          TransactionType transactionType){
 
         TransactionHistory transactionHistory = new TransactionHistory();
         transactionHistory.setTransactionCurrency(WalletConstants.CURRENCY_BRL);
         transactionHistory.setTransactionValue(transactionDto.getTransactionValue());
-        transactionHistory.setCustomerNumber(customer.getCustomerNumber());
-        transactionHistory.setDocumentOrigin(customer.getDocument());
+        transactionHistory.setCustomerNumber(transactionDto.getCustomerNumber());
+        transactionHistory.setDocumentOrigin(transactionDto.getDocument());
         transactionHistory.setDocumentDestination(transactionDto.getDocument());
         transactionHistory.setTransactionType(transactionType);
 
@@ -150,13 +131,12 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     private TransactionHistory buildTransationHistoryDTO(TransferTransactionDto transferTransactionDto,
-                                                         Customer customer,
                                                          TransactionType transactionType){
 
         TransactionHistory transactionHistory = new TransactionHistory();
         transactionHistory.setTransactionCurrency(WalletConstants.CURRENCY_BRL);
         transactionHistory.setTransactionValue(transferTransactionDto.getTransactionValue());
-        transactionHistory.setCustomerNumber(customer.getCustomerNumber());
+        transactionHistory.setCustomerNumber(transferTransactionDto.getCustomerNumberOrigin());
         transactionHistory.setDocumentOrigin(transferTransactionDto.getDocumentOrigin());
         transactionHistory.setDocumentDestination(transferTransactionDto.getDocumentDestination());
         transactionHistory.setTransactionType(transactionType);

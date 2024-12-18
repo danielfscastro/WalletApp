@@ -1,7 +1,5 @@
-com\demo\customer\mapper\CustomerMapper.class
 com\demo\customer\audit\AuditAwareImpl.class
 com\demo\customer\entity\Wallet.class
-com\demo\customer\repository\CustomerRepository.class
 com\demo\customer\dto\TransactionDto.class
 com\demo\customer\constants\WalletConstants.class
 com\demo\customer\entity\BaseEntity.class
@@ -18,7 +16,6 @@ com\demo\customer\dto\TransferTransactionDto.class
 com\demo\customer\exception\CustomerNotExistsException.class
 com\demo\customer\controller\WalletController.class
 com\demo\customer\repository\WalletRepository.class
-com\demo\customer\entity\Customer.class
 com\demo\customer\dto\WalletDto.class
 com\demo\customer\mapper\WalletMapper.class
 com\demo\customer\exception\ResourceNotFoundException.class

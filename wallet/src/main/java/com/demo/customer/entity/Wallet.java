@@ -1,8 +1,6 @@
 package com.demo.customer.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,7 +14,7 @@ import java.math.BigDecimal;
 public class Wallet extends BaseEntity {
 
     @Id
-    @Column(name = "wallet_number", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long walletNumber;
     @Column(name = "customer_number", nullable = false)
     private Long customerNumber;

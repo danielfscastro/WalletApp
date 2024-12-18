@@ -11,7 +11,6 @@ C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\d
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\dto\TransferTransactionDto.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\dto\WalletDto.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\entity\BaseEntity.java
-C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\entity\Customer.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\entity\TransactionHistory.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\entity\Wallet.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\exception\CustomerNotExistsException.java
@@ -20,9 +19,7 @@ C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\e
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\exception\TransactionHistoryNotFoundException.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\exception\WalletAlreadyExistsException.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\exception\WalletNotExistsException.java
-C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\mapper\CustomerMapper.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\mapper\WalletMapper.java
-C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\repository\CustomerRepository.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\repository\TransactionHistoryRepository.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\repository\WalletRepository.java
 C:\Desenvolvimento\Workspaces\WalletApp\wallet\src\main\java\com\demo\customer\service\impl\TransactionServiceImpl.java
