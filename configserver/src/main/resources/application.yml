@@ -37,6 +37,8 @@ management:
 
 logging:
   level:
-    org.springframework.boot.actuator: DEBUG  # Set detailed logging level for Spring Boot Actuator
-    org.springframework.cloud: DEBUG  # Set detailed logging level for Spring Cloud
-    org.springframework: INFO  # Set logging level to INFO for general Spring framework logging
+    org:
+      springframework:
+        boot:
+          actuator: DEBUG  # Set detailed logging level for Spring Boot Actuator
+        cloud: DEBUG  # Set detailed logging level for Spring Cloud

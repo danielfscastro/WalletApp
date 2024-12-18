@@ -53,6 +53,6 @@ info:
 
 logging:
     level:
-        br:
-            com:
+        com:
+            fakepay:
                 apigateway: DEBUG

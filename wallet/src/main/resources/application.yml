@@ -53,7 +53,7 @@ endpoints:
 logging:
   level:
     com:
-      demo:
+      fakepay:
         wallet: ERROR  # Set log level for the wallet application package
     org:
       springframework: ERROR  # Set log level for Spring framework
