@@ -67,7 +67,7 @@ logging:
   level:
     com:
       fakepay:
-        wallet: ERROR  # Set log level for the wallet application package
+        wallet: INFO  # Set log level for the wallet application package
     org:
       springframework: ERROR  # Set log level for Spring framework
     io:

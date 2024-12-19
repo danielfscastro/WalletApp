@@ -21,7 +21,7 @@ public class WalletFunctions {
     @Bean
     public Consumer<WalletMsgDto> receiveCommunication(IWalletService walletService) {
         return walletMsgDto -> {
-            log.info("Updating Communication status for the account number : " + walletMsgDto);
+            log.info("Creating wallet for the customerNumber : " + walletMsgDto.customerNumber());
             walletService.create(WalletMapper.mapToWalletDto(walletMsgDto, new WalletDto()));
         };
     }
