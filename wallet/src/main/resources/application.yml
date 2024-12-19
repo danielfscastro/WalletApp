@@ -25,6 +25,19 @@ spring:
 
   config:
     import: optional:configserver:http://localhost:8080  # Import config from a config server, if available
+  cloud:
+    function:
+      definition: receiveCommunication
+    stream:
+      bindings:
+        receiveCommunication-in-0:
+          destination: send-communication
+          group: ${spring.application.name}
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
+            # Specifies the address of the Kafka broker, in this case, running locally on port 9092.
 
 management:
   endpoints:

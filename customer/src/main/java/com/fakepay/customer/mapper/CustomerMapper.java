@@ -1,6 +1,7 @@
 package com.fakepay.customer.mapper;
 
 import com.fakepay.customer.dto.CustomerDto;
+import com.fakepay.customer.dto.WalletMsgDto;
 import com.fakepay.customer.entity.Customer;
 
 public class CustomerMapper {
@@ -17,5 +18,9 @@ public class CustomerMapper {
         customer.setEmail(customerDto.getEmail());
         customer.setDocument(customerDto.getDocument());
         return customer;
+    }
+
+    public static WalletMsgDto mapToWalletMsgDto(Customer customer) {
+        return new WalletMsgDto(customer.getCustomerNumber());
     }
 }

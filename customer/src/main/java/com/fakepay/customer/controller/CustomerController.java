@@ -1,7 +1,6 @@
 package com.fakepay.customer.controller;
 
 import com.fakepay.customer.constants.CustomerConstants;
-import com.demo.customer.dto.*;
 import com.fakepay.customer.dto.CustomerDto;
 import com.fakepay.customer.dto.ErrorResponseDto;
 import com.fakepay.customer.dto.ResponseDto;

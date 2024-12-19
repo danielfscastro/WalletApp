@@ -1,0 +1,29 @@
+package com.fakepay.wallet.functions;
+
+import com.fakepay.wallet.dto.WalletDto;
+import com.fakepay.wallet.dto.WalletMsgDto;
+import com.fakepay.wallet.entity.Wallet;
+import com.fakepay.wallet.mapper.WalletMapper;
+import com.fakepay.wallet.service.IWalletService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+@Configuration
+public class WalletFunctions {
+
+    private static final Logger log = LoggerFactory.getLogger(WalletFunctions.class);
+
+    @Bean
+    public Consumer<WalletMsgDto> receiveCommunication(IWalletService walletService) {
+        return walletMsgDto -> {
+            log.info("Updating Communication status for the account number : " + walletMsgDto);
+            walletService.create(WalletMapper.mapToWalletDto(walletMsgDto, new WalletDto()));
+        };
+    }
+
+}

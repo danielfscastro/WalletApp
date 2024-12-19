@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface WalletFeignClient {
     @GetMapping(value = "/api/fetch", consumes = "application/json")
     public ResponseEntity<WalletDto> fetchWalletDetails(@RequestHeader("wallet-correlation-id") String correlationId,
-                                                        @RequestParam String document);
+                                                        @RequestParam Long customerNumber);
 }

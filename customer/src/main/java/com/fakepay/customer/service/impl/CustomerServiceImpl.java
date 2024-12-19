@@ -8,6 +8,7 @@ import com.fakepay.customer.exception.CustomerAlreadyExistsException;
 import com.fakepay.customer.mapper.CustomerMapper;
 import com.fakepay.customer.repository.CustomerRepository;
 import com.fakepay.customer.service.ICustomerService;
+import com.fakepay.customer.service.IMessagingService;
 import com.fakepay.customer.service.client.WalletFeignClient;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
     private CustomerRepository customerRepository;
     private WalletFeignClient walletFeignClient;
+    private IMessagingService messagingService;
 
     @Override
     public void create(CustomerDto customerDto) {
@@ -36,6 +38,8 @@ public class CustomerServiceImpl implements ICustomerService {
         }
 
         Customer savedCustomer = customerRepository.save(customer);
+        messagingService.sendCommunication(CustomerMapper.mapToWalletMsgDto(savedCustomer));
+
     }
 
     @Override
@@ -46,7 +50,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
         CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
 
-        ResponseEntity<WalletDto> walletDtoResponseEntity = walletFeignClient.fetchWalletDetails(document,correlationId);
+        ResponseEntity<WalletDto> walletDtoResponseEntity = walletFeignClient.fetchWalletDetails(correlationId, customer.getCustomerNumber());
         if(walletDtoResponseEntity != null) {
             customerDto.setWallet(walletDtoResponseEntity.getBody());
         }

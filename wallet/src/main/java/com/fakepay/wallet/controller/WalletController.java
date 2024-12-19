@@ -1,7 +1,6 @@
 package com.fakepay.wallet.controller;
 
 import com.fakepay.wallet.constants.WalletConstants;
-import com.demo.customer.dto.*;
 import com.fakepay.wallet.dto.*;
 import com.fakepay.wallet.service.ITransactionService;
 import com.fakepay.wallet.service.IWalletService;
