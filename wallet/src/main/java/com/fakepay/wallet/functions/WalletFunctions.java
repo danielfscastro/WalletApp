@@ -19,7 +19,7 @@ public class WalletFunctions {
     private static final Logger log = LoggerFactory.getLogger(WalletFunctions.class);
 
     @Bean
-    public Consumer<WalletMsgDto> receiveCommunication(IWalletService walletService) {
+    public Consumer<WalletMsgDto> createWallet(IWalletService walletService) {
         return walletMsgDto -> {
             log.info("Creating wallet for the customerNumber : " + walletMsgDto.customerNumber());
             walletService.create(WalletMapper.mapToWalletDto(walletMsgDto, new WalletDto()));

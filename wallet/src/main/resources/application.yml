@@ -27,12 +27,14 @@ spring:
     import: optional:configserver:http://localhost:8080  # Import config from a config server, if available
   cloud:
     function:
-      definition: receiveCommunication
+      definition: createWallet
     stream:
       bindings:
-        receiveCommunication-in-0:
-          destination: send-communication
+        createWallet-in-0:
+          destination: create-wallet-request
           group: ${spring.application.name}
+        createWallet-out-0:
+          destination: create-wallet-response
       kafka:
         binder:
           brokers:

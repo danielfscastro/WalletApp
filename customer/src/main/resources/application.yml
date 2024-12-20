@@ -31,8 +31,11 @@ spring:
         enabled: true  # Enable circuit breaker for OpenFeign clients
     stream:
       bindings:
+        updatingCommunication-in-0:
+          destination: create-wallet-response
+          group: ${spring.application.name}
         sendCommunication-out-0:
-          destination: send-communication
+          destination: create-wallet-request
           # This binding sends messages to the 'send-communication' topic.
       kafka:
         binder:
