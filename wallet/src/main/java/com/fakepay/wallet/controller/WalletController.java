@@ -43,31 +43,6 @@ public class WalletController {
     private String buildVersion;
 
     @Operation(
-            summary = "Create Wallet REST API",
-            description = "REST API to create a new Customer & Wallet"
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "HTTP Status CREATED"
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "HTTP Status Internal Server Error",
-                    content = @Content(
-                            schema = @Schema(implementation = ErrorResponseDto.class)
-                    )
-            )
-    }
-    )
-    @PostMapping("/create")
-    public ResponseEntity<ResponseDto> create(@Valid @RequestBody WalletDto wallet) {
-        iWalletService.create(wallet);
-
-        return buildResponseEntity(HttpStatus.CREATED, WalletConstants.STATUS_201, WalletConstants.MESSAGE_201);
-    }
-
-    @Operation(
             summary = "Fetch Wallet Details REST API",
             description = "REST API to fetch Customer & Wallet details based on a wallet number"
     )
@@ -87,8 +62,8 @@ public class WalletController {
     )
     @GetMapping("/fetch")
     public ResponseEntity<WalletDto> fetch(@RequestHeader("wallet-correlation-id") String correlationId,
-                                             @RequestParam Long customerNumber) {
-        WalletDto walletDto = iWalletService.fetchWallet(customerNumber, correlationId);
+                                           @RequestParam String document) {
+        WalletDto walletDto = iWalletService.fetchWallet(document, correlationId);
         return ResponseEntity.status(HttpStatus.OK).body(walletDto);
     }
 

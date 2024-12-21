@@ -12,7 +12,6 @@ import java.util.Optional;
 
 public interface TransactionHistoryRepository extends JpaRepository<TransactionHistory, Long> {
 
-    Optional<TransactionHistory> findByCustomerNumber(Long customerNumber);
     List<TransactionHistory> findByDocumentOriginAndCreatedAt(String document, LocalDate createdAt);
 
     @Query("SELECT t FROM TransactionHistory t WHERE t.documentOrigin = :document AND t.createdAt >= :startDate AND t.createdAt < :endDate")

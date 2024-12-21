@@ -13,12 +13,10 @@ import java.math.BigDecimal;
 )
 public class WalletDto {
 
-    @NotNull(message = "Customer Number cannot be null")
-    @Positive(message = "Customer number value must be a positive number")
-    @Schema(
-            description = "Customer Number", example = "1234567890N"
-    )
-    private Long customerNumber;
+    @NotEmpty(message = "Document cannot be null or empty")
+    @Size(max = 14, message = "Document must be at most 14 characters")
+    @Schema(description = "Customer Document", example = "12345678901234")
+    private String document;
 
     @NotNull(message = "Balance cannot be null")
     @Digits(integer = 18, fraction = 8, message = "Balance must be a number with up to 10 total digits and 2 decimal places")

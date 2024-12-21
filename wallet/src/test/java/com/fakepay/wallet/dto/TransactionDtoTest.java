@@ -24,7 +24,7 @@ public class TransactionDtoTest {
 
     @Test
     public void testValidTransactionDto() {
-        TransactionDto dto = new TransactionDto(12345L, "123456", new BigDecimal("100.00"));
+        TransactionDto dto = new TransactionDto("123456", new BigDecimal("100.00"));
 
         Set<ConstraintViolation<TransactionDto>> violations = validator.validate(dto);
         assertTrue(violations.isEmpty(), "Expected no constraint violations for a valid TransactionDto");
@@ -32,7 +32,7 @@ public class TransactionDtoTest {
 
     @Test
     public void testDocumentShouldNotBeEmpty() {
-        TransactionDto dto = new TransactionDto(12345L,"", new BigDecimal("100.00"));
+        TransactionDto dto = new TransactionDto("", new BigDecimal("100.00"));
 
         Set<ConstraintViolation<TransactionDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -41,7 +41,7 @@ public class TransactionDtoTest {
 
     @Test
     public void testDocumentSizeConstraint() {
-        TransactionDto dto = new TransactionDto(12345L,"123456789012345", new BigDecimal("100.00"));
+        TransactionDto dto = new TransactionDto("123456789012345", new BigDecimal("100.00"));
 
         Set<ConstraintViolation<TransactionDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -50,7 +50,7 @@ public class TransactionDtoTest {
 
     @Test
     public void testTransactionValueShouldNotBeNull() {
-        TransactionDto dto = new TransactionDto(12345L,"123456", null);
+        TransactionDto dto = new TransactionDto("123456", null);
 
         Set<ConstraintViolation<TransactionDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -59,7 +59,7 @@ public class TransactionDtoTest {
 
     @Test
     public void testTransactionValueMustBePositive() {
-        TransactionDto dto = new TransactionDto(12345L,"123456", new BigDecimal("-50.00"));
+        TransactionDto dto = new TransactionDto("123456", new BigDecimal("-50.00"));
 
         Set<ConstraintViolation<TransactionDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());

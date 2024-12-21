@@ -18,9 +18,6 @@ public class TransactionHistory extends BaseEntity {
     @Column(name = "transaction_history_id", nullable = false)
     private Long transactionHistoryId;
 
-    @Column(name = "customer_number", nullable = false)
-    private Long customerNumber;
-
     @Enumerated(EnumType.STRING)  // Armazena o nome da constante do enum
     @Column(name = "transaction_type", nullable = false)
     private TransactionType transactionType;

@@ -16,8 +16,8 @@ public class Wallet extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long walletNumber;
-    @Column(name = "customer_number", nullable = false)
-    private Long customerNumber;
+    @Column(name = "document", nullable = false)
+    private String document;
     @Column(name = "balance", nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
 }

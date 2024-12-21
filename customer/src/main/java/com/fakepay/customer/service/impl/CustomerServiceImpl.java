@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
         CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
 
-        ResponseEntity<WalletDto> walletDtoResponseEntity = walletFeignClient.fetchWalletDetails(correlationId, customer.getCustomerNumber());
+        ResponseEntity<WalletDto> walletDtoResponseEntity = walletFeignClient.fetchWalletDetails(correlationId, customer.getDocument());
         if(walletDtoResponseEntity != null) {
             customerDto.setWallet(walletDtoResponseEntity.getBody());
         }

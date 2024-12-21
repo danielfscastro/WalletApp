@@ -1,3 +1,3 @@
 package com.fakepay.wallet.dto;
 
-public record WalletMsgDto(Long customerNumber){}
+public record WalletMsgDto(String document){}

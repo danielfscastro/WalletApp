@@ -30,5 +30,5 @@ public class CustomerDto {
     @Schema(description = "Customer Document", example = "12345678901234")
     private String document;
 
-    private WalletDto wallet;  // Assuming this is a valid DTO representing the wallet information
+    private WalletDto wallet;
 }

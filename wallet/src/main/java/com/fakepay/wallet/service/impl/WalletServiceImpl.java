@@ -32,9 +32,9 @@ public class WalletServiceImpl implements IWalletService {
     }
 
     @Override
-    public WalletDto fetchWallet(Long customerNumber, String correlationId) {
-        Wallet wallet = walletRepository.findByCustomerNumber(customerNumber).orElseThrow(
-                () -> new ResourceNotFoundException("Wallet", "customerNumber", String.valueOf(customerNumber))
+    public WalletDto fetchWallet(String document, String correlationId) {
+        Wallet wallet = walletRepository.findByDocument(document).orElseThrow(
+                () -> new ResourceNotFoundException("Wallet", "document", String.valueOf(document))
         );
 
         return WalletMapper.mapToWalletDto(wallet, new WalletDto());

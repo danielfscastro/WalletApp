@@ -21,6 +21,6 @@ public class CustomerMapper {
     }
 
     public static WalletMsgDto mapToWalletMsgDto(Customer customer) {
-        return new WalletMsgDto(customer.getCustomerNumber());
+        return new WalletMsgDto(customer.getDocument());
     }
 }

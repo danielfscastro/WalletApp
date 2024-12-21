@@ -21,7 +21,7 @@ public class WalletFunctions {
     @Bean
     public Consumer<WalletMsgDto> createWallet(IWalletService walletService) {
         return walletMsgDto -> {
-            log.info("Creating wallet for the customerNumber : " + walletMsgDto.customerNumber());
+            log.info("Creating wallet for the customerNumber : " + walletMsgDto.document());
             walletService.create(WalletMapper.mapToWalletDto(walletMsgDto, new WalletDto()));
         };
     }

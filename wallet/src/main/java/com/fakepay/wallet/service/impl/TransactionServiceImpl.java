@@ -35,7 +35,7 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public boolean deposit(TransactionDto transactionDto) {
-        Wallet wallet = walletRepository.findByCustomerNumber(transactionDto.getCustomerNumber()).orElseThrow(
+        Wallet wallet = walletRepository.findByDocument(transactionDto.getDocument()).orElseThrow(
                 () -> new ResourceNotFoundException("Wallet", "document", transactionDto.getDocument())
         );
 
@@ -50,7 +50,7 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public boolean withdraw(TransactionDto transactionDto) {
-        Wallet wallet = walletRepository.findByCustomerNumber(transactionDto.getCustomerNumber()).orElseThrow(
+        Wallet wallet = walletRepository.findByDocument(transactionDto.getDocument()).orElseThrow(
                 () -> new ResourceNotFoundException("Wallet", "document", transactionDto.getDocument())
         );
 
@@ -93,25 +93,25 @@ public class TransactionServiceImpl implements ITransactionService {
     @Override
     public boolean transfer(TransferTransactionDto transferTransactionDto) {
 
-        Wallet walletOrigin = walletRepository.findByCustomerNumber(transferTransactionDto.getCustomerNumberOrigin()).orElseThrow(
-                () -> new ResourceNotFoundException("Wallet Origin", "documentOrigin", transferTransactionDto.getDocumentOrigin())
-        );
-
-        Wallet walletDestination = walletRepository.findByCustomerNumber(transferTransactionDto.getCustomerNumberDestination()).orElseThrow(
-                () -> new ResourceNotFoundException("Wallet Destination", "documentDestination", transferTransactionDto.getDocumentDestination())
-        );
-
-        BigDecimal savedBalanceOrigin = walletOrigin.getBalance().subtract(transferTransactionDto.getTransactionValue());
-        walletOrigin.setBalance(savedBalanceOrigin);
-
-        BigDecimal savedBalanceDestination = walletDestination.getBalance().add(transferTransactionDto.getTransactionValue());
-        walletDestination.setBalance(savedBalanceDestination);
-
-        Wallet savedWalletOrigin = walletRepository.save(walletOrigin);
-        Wallet savedWalletDestination = walletRepository.save(walletDestination);
-
-        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.WITHDRAW));
-        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.DEPOSIT));
+//        Wallet walletOrigin = walletRepository.findByCustomerNumber(transferTransactionDto.getCustomerNumberOrigin()).orElseThrow(
+//                () -> new ResourceNotFoundException("Wallet Origin", "documentOrigin", transferTransactionDto.getDocumentOrigin())
+//        );
+//
+//        Wallet walletDestination = walletRepository.findByCustomerNumber(transferTransactionDto.getCustomerNumberDestination()).orElseThrow(
+//                () -> new ResourceNotFoundException("Wallet Destination", "documentDestination", transferTransactionDto.getDocumentDestination())
+//        );
+//
+//        BigDecimal savedBalanceOrigin = walletOrigin.getBalance().subtract(transferTransactionDto.getTransactionValue());
+//        walletOrigin.setBalance(savedBalanceOrigin);
+//
+//        BigDecimal savedBalanceDestination = walletDestination.getBalance().add(transferTransactionDto.getTransactionValue());
+//        walletDestination.setBalance(savedBalanceDestination);
+//
+//        Wallet savedWalletOrigin = walletRepository.save(walletOrigin);
+//        Wallet savedWalletDestination = walletRepository.save(walletDestination);
+//
+//        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.WITHDRAW));
+//        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.DEPOSIT));
 
         return true;
     }
@@ -122,7 +122,6 @@ public class TransactionServiceImpl implements ITransactionService {
         TransactionHistory transactionHistory = new TransactionHistory();
         transactionHistory.setTransactionCurrency(WalletConstants.CURRENCY_BRL);
         transactionHistory.setTransactionValue(transactionDto.getTransactionValue());
-        transactionHistory.setCustomerNumber(transactionDto.getCustomerNumber());
         transactionHistory.setDocumentOrigin(transactionDto.getDocument());
         transactionHistory.setDocumentDestination(transactionDto.getDocument());
         transactionHistory.setTransactionType(transactionType);
@@ -136,7 +135,6 @@ public class TransactionServiceImpl implements ITransactionService {
         TransactionHistory transactionHistory = new TransactionHistory();
         transactionHistory.setTransactionCurrency(WalletConstants.CURRENCY_BRL);
         transactionHistory.setTransactionValue(transferTransactionDto.getTransactionValue());
-        transactionHistory.setCustomerNumber(transferTransactionDto.getCustomerNumberOrigin());
         transactionHistory.setDocumentOrigin(transferTransactionDto.getDocumentOrigin());
         transactionHistory.setDocumentDestination(transferTransactionDto.getDocumentDestination());
         transactionHistory.setTransactionType(transactionType);
