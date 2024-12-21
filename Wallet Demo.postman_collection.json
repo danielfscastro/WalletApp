@@ -3,7 +3,7 @@
 		"_postman_id": "522ad0f0-1da7-42d8-bf73-b3a9113c689a",
 		"name": "Wallet Demo",
 		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "15250337"
 	},
 	"item": [
@@ -21,17 +21,25 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8080/api/create",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"create"
-					]
-				}
+				"url": "localhost:8080/api/create"
+			},
+			"response": []
+		},
+		{
+			"name": "create wallet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Daniel Castro\",\r\n    \"email\": \"daniel.fs.castro@gmail.com\",\r\n    \"document\": \"01234567890\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/api/create"
 			},
 			"response": []
 		},
@@ -49,45 +57,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8080/api/create",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"create"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create customer",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Daniel Castro 2\",\r\n    \"email\": \"example@destination.com\",\r\n    \"document\": \"01234567891\" \r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8082/api/create",
-					"host": [
-						"localhost"
-					],
-					"port": "8082",
-					"path": [
-						"api",
-						"create"
-					]
-				}
+				"url": "localhost:8080/api/create"
 			},
 			"response": []
 		},
@@ -98,26 +68,32 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Daniel Castro 2\",\r\n    \"email\": \"example@destination.com\",\r\n    \"document\": \"01234567891\" \r\n}",
+					"raw": "{\r\n    \"name\": \"Daniel Castro 2\",\r\n    \"email\": \"example@destination2.com\",\r\n    \"document\": \"01234567891\" \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8000/fakepay/costumer/api/create",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"fakepay",
-						"costumer",
-						"api",
-						"create"
-					]
-				}
+				"url": "localhost:8000/fakepay/customer/api/create"
+			},
+			"response": []
+		},
+		{
+			"name": "create customer via gateway",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Daniel Castro\",\r\n    \"email\": \"example@destination.com\",\r\n    \"document\": \"01234567890\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8000/fakepay/customer/api/create"
 			},
 			"response": []
 		},
@@ -127,12 +103,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/fetch?document=01234567890",
+					"raw": "localhost:8000/fakepay/customer/api/fetch?document=01234567890",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8000",
 					"path": [
+						"fakepay",
+						"customer",
 						"api",
 						"fetch"
 					],
@@ -152,7 +130,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/fetch?document=01234567890",
+					"raw": "localhost:8080/api/fetch?document=01234567891",
 					"host": [
 						"localhost"
 					],
@@ -164,7 +142,7 @@
 					"query": [
 						{
 							"key": "document",
-							"value": "01234567890"
+							"value": "01234567891"
 						}
 					]
 				}
@@ -210,17 +188,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8080/api/deposit",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"deposit"
-					]
-				}
+				"url": "localhost:8000/fakepay/wallet/api/deposit"
 			},
 			"response": []
 		},
@@ -238,17 +206,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8080/api/withdraw",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"withdraw"
-					]
-				}
+				"url": "localhost:8000/fakepay/wallet/api/withdraw"
 			},
 			"response": []
 		},
@@ -307,17 +265,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8080/api/transfer",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"transfer"
-					]
-				}
+				"url": "localhost:8080/api/transfer"
 			},
 			"response": []
 		},
@@ -338,17 +286,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8081/api/build-info",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"build-info"
-					]
-				}
+				"url": "localhost:8081/api/build-info"
 			},
 			"response": []
 		},
@@ -369,18 +307,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8080/actuator/health/readiness",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"actuator",
-						"health",
-						"readiness"
-					]
-				}
+				"url": "localhost:8080/actuator/health/readiness"
 			},
 			"response": []
 		}
