@@ -17,7 +17,7 @@ spring:
 #    console:
 #      enabled: true  # Enable the H2 database console for web access
   datasource:
-    url: jdbc:mysql://localhost:3307/walletdb?autoReconnect=true&useSSL=false
+    url: jdbc:mysql://localhost:3307/walletdb
     username: root
     password: root
 
