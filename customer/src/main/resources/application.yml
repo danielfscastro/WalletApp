@@ -8,15 +8,18 @@ spring:
   profiles:
     active: "dev"  # Active profile for the application (development profile)
 
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/accountsdb  # JDBC URL for connecting to an H2 in-memory database
+#    driverClassName: org.h2.Driver  # Driver class for H2
+#    username: root  # Username for the H2 database
+#    password: root  # Password for the H2 database (H2 uses an empty password)
+#  h2:
+#    console:
+#      enabled: true  # Enable H2 database console for web access
   datasource:
-    url: jdbc:h2:mem:testdb  # JDBC URL for connecting to an H2 in-memory database
-    driverClassName: org.h2.Driver  # Driver class for H2
-    username: sa  # Username for the H2 database
-    password: ''  # Password for the H2 database (H2 uses an empty password)
-
-  h2:
-    console:
-      enabled: true  # Enable H2 database console for web access
+    url: jdbc:mysql://localhost:3306/customerdb
+    username: root
+    password: root
 
   jpa:
     hibernate:

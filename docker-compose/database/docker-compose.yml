@@ -1,0 +1,24 @@
+services:
+  customerdb:
+    container_name: customerdb
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: customerdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  walletdb:
+    container_name: walletdb
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: walletdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+networks:
+  wallet-app:
+    driver: "bridge"

@@ -22,13 +22,17 @@ public class ApiGatewayRouter {
                 .route(
                     route -> route.path("/fakepay/customer/**")
                             .filters(filter -> filter.rewritePath("/fakepay/customer/(?<segment>.*)", "/${segment}")
-                                    .filter(responseTimeHeaderFilter))
+                                    .filter(responseTimeHeaderFilter)
+                                    .circuitBreaker(config -> config.setName("customerCircuitBreaker")
+                                            .setFallbackUri("forward:/contactSupport")))
                             .uri("lb://CUSTOMER")
                 )
                 .route(
                         route -> route.path("/fakepay/wallet/**")
                                 .filters(filter -> filter.rewritePath("/fakepay/wallet/(?<segment>.*)", "/${segment}")
-                                        .filter(responseTimeHeaderFilter))
+                                        .filter(responseTimeHeaderFilter)
+                                        .circuitBreaker(config -> config.setName("walletCircuitBreaker")
+                                                .setFallbackUri("forward:/contactSupport")))
                                 .uri("lb://WALLET")
                 )
                 .build();

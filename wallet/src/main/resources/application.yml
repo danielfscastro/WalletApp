@@ -8,15 +8,18 @@ spring:
   profiles:
     active: "dev"  # Active profile for the application (dev)
 
+#  datasource:
+#    url: jdbc:h2:mem:testdb  # JDBC URL for the H2 in-memory database
+#    driverClassName: org.h2.Driver  # Driver class name for H2
+#    username: sa  # Database username
+#    password: ''  # Password for the database (H2 defaults to empty)
+#  h2:
+#    console:
+#      enabled: true  # Enable the H2 database console for web access
   datasource:
-    url: jdbc:h2:mem:testdb  # JDBC URL for the H2 in-memory database
-    driverClassName: org.h2.Driver  # Driver class name for H2
-    username: sa  # Database username
-    password: ''  # Password for the database (H2 defaults to empty)
-
-  h2:
-    console:
-      enabled: true  # Enable the H2 database console for web access
+    url: jdbc:mysql://localhost:3307/walletdb
+    username: root
+    password: root
 
   jpa:
     hibernate:
