@@ -67,14 +67,12 @@ services:
       retries: 2  # Number of retries before considering the service unhealthy
       start_period: 10s  # Initial delay before starting health checks
     depends_on:  # Dependencies on other services
-      configserver:  # This service depends on the configserver
-        condition: service_healthy  # Ensures wallet starts only after configserver is healthy
       eurekaserver:
         condition: service_healthy
       customerdb:
         condition: service_healthy
     environment:  # Environment variables for configuring the service
-      SPRING_APPLICATION_NAME: "wallet"  # Name of the Spring application
+      SPRING_APPLICATION_NAME: "customer"  # Name of the Spring application
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"  # Kafka broker URL for message binding
     extends:
       file: common-config.yml
@@ -92,8 +90,6 @@ services:
       retries: 2  # Number of retries before considering the service unhealthy
       start_period: 10s  # Initial delay before starting health checks
     depends_on:  # Dependencies on other services
-      configserver:  # This service depends on the configserver
-        condition: service_healthy  # Ensures wallet starts only after configserver is healthy
       eurekaserver:
         condition: service_healthy
       walletdb:

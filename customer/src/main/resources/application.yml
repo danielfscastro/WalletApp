@@ -17,7 +17,7 @@ spring:
 #    console:
 #      enabled: true  # Enable H2 database console for web access
   datasource:
-    url: jdbc:mysql://localhost:3306/customerdb
+    url: jdbc:mysql://localhost:3306/customerdb?autoReconnect=true&useSSL=false
     username: root
     password: root
 
