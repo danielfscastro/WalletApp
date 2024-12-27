@@ -21,8 +21,8 @@ services:
       service: network-deploy-service  # Extends the network-deploy-service
 
   configserver:  # Configuration server service
-    image: "danielfscastro/config-server:s1"  # Docker image for the Config Server
-    container_name: config-server-ms  # Name for the container
+    image: "danielfscastro/configserver:s1"  # Docker image for the Config Server
+    container_name: configserver-ms  # Name for the container
     ports:
       - "8080:8080"  # Maps port 8080 on the host to port 8080 on the container
     healthcheck:  # Health check configuration for the service
@@ -51,13 +51,13 @@ services:
       start_period: 10s
     extends:
       file: common-config.yml
-      service: microservice-configserver-config
+      service: microservice-eureka-config
     environment:
       SPRING_APPLICATION_NAME: "eurekaserver"
 
   customer:  # Customer microservice configuration
     image: "danielfscastro/customer:s1"  # Docker image for the Wallet service
-    container_name: wallet-ms  # Named container for easier management
+    container_name: customer-ms  # Named container for easier management
     ports:
       - "8081:8081"  # Maps port 8081 on the host to port 8081 in the container
     healthcheck:  # Health check configuration to monitor the service's readiness
@@ -70,6 +70,8 @@ services:
       configserver:  # This service depends on the configserver
         condition: service_healthy  # Ensures wallet starts only after configserver is healthy
       eurekaserver:
+        condition: service_healthy
+      customerdb:
         condition: service_healthy
     environment:  # Environment variables for configuring the service
       SPRING_APPLICATION_NAME: "wallet"  # Name of the Spring application
@@ -94,9 +96,27 @@ services:
         condition: service_healthy  # Ensures wallet starts only after configserver is healthy
       eurekaserver:
         condition: service_healthy
+      walletdb:
+        condition: service_healthy
     environment:  # Environment variables for configuring the service
       SPRING_APPLICATION_NAME: "wallet"  # Name of the Spring application
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"  # Kafka broker URL for message binding
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+
+  apigateway:
+    image: "danielfscastro/apigateway:s1"
+    container_name: apigateway-ms
+    ports:
+      - "8000:8000"
+    depends_on:
+      customer:
+        condition: service_healthy
+      wallet:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "apigateway"
     extends:
       file: common-config.yml
       service: microservice-eureka-config

@@ -25,6 +25,9 @@ spring:
     hibernate:
       ddl-auto: update  # Automatically update the database schema
     show-sql: true  # Show SQL statements in logs
+  sql:
+    init:
+      mode: always
 
   config:
     import: optional:configserver:http://localhost:8080  # Import config from a config server, if available
