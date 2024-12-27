@@ -44,7 +44,7 @@ public class WalletController {
 
     @Operation(
             summary = "Fetch Wallet Details REST API",
-            description = "REST API to fetch Customer & Wallet details based on a wallet number"
+            description = "REST API to fetch wallet details by customer document"
     )
     @ApiResponses({
             @ApiResponse(

@@ -20,4 +20,12 @@ public class Wallet extends BaseEntity {
     private String document;
     @Column(name = "balance", nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
+
+    public void add(BigDecimal value) {
+        this.balance = this.balance.add(value);
+    }
+
+    public void subtract(BigDecimal value) {
+        this.balance = this.balance.subtract(value);
+    }
 }

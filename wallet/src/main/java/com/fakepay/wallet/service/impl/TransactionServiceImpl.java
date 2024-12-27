@@ -39,8 +39,7 @@ public class TransactionServiceImpl implements ITransactionService {
                 () -> new ResourceNotFoundException("Wallet", "document", transactionDto.getDocument())
         );
 
-        BigDecimal savedBalance = wallet.getBalance().add(transactionDto.getTransactionValue());
-        wallet.setBalance(savedBalance);
+        wallet.add(transactionDto.getTransactionValue());
         Wallet savedWallet = walletRepository.save(wallet);
 
         transactionHistoryRepository.save(buildTransationHistoryDTO(transactionDto, TransactionType.DEPOSIT));
@@ -54,8 +53,7 @@ public class TransactionServiceImpl implements ITransactionService {
                 () -> new ResourceNotFoundException("Wallet", "document", transactionDto.getDocument())
         );
 
-        BigDecimal savedBalance = wallet.getBalance().subtract(transactionDto.getTransactionValue());
-        wallet.setBalance(savedBalance);
+        wallet.subtract(transactionDto.getTransactionValue());
         Wallet savedWallet = walletRepository.save(wallet);
 
         transactionHistoryRepository.save(buildTransationHistoryDTO(transactionDto, TransactionType.WITHDRAW));
@@ -65,10 +63,6 @@ public class TransactionServiceImpl implements ITransactionService {
 
     @Override
     public CustomerBalanceAtDto fetchBalanceAt(String document, LocalDate date) {
-        /**
-         * TODO:// validate if customer exists
-         */
-
         CustomerBalanceAtDto customerBalanceAtDto = new CustomerBalanceAtDto();
         customerBalanceAtDto.setDocument(document);
         customerBalanceAtDto.setBalanceAt(date);
@@ -93,25 +87,22 @@ public class TransactionServiceImpl implements ITransactionService {
     @Override
     public boolean transfer(TransferTransactionDto transferTransactionDto) {
 
-//        Wallet walletOrigin = walletRepository.findByCustomerNumber(transferTransactionDto.getCustomerNumberOrigin()).orElseThrow(
-//                () -> new ResourceNotFoundException("Wallet Origin", "documentOrigin", transferTransactionDto.getDocumentOrigin())
-//        );
-//
-//        Wallet walletDestination = walletRepository.findByCustomerNumber(transferTransactionDto.getCustomerNumberDestination()).orElseThrow(
-//                () -> new ResourceNotFoundException("Wallet Destination", "documentDestination", transferTransactionDto.getDocumentDestination())
-//        );
-//
-//        BigDecimal savedBalanceOrigin = walletOrigin.getBalance().subtract(transferTransactionDto.getTransactionValue());
-//        walletOrigin.setBalance(savedBalanceOrigin);
-//
-//        BigDecimal savedBalanceDestination = walletDestination.getBalance().add(transferTransactionDto.getTransactionValue());
-//        walletDestination.setBalance(savedBalanceDestination);
-//
-//        Wallet savedWalletOrigin = walletRepository.save(walletOrigin);
-//        Wallet savedWalletDestination = walletRepository.save(walletDestination);
-//
-//        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.WITHDRAW));
-//        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.DEPOSIT));
+        Wallet walletOrigin = walletRepository.findByDocument(transferTransactionDto.getDocumentOrigin()).orElseThrow(
+                () -> new ResourceNotFoundException("Wallet Origin", "documentOrigin", transferTransactionDto.getDocumentOrigin())
+        );
+
+        Wallet walletDestination = walletRepository.findByDocument(transferTransactionDto.getDocumentDestination()).orElseThrow(
+                () -> new ResourceNotFoundException("Wallet Destination", "documentDestination", transferTransactionDto.getDocumentDestination())
+        );
+
+        walletOrigin.subtract(transferTransactionDto.getTransactionValue());
+        walletDestination.add(transferTransactionDto.getTransactionValue());
+
+        Wallet savedWalletOrigin = walletRepository.save(walletOrigin);
+        Wallet savedWalletDestination = walletRepository.save(walletDestination);
+
+        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.WITHDRAW));
+        transactionHistoryRepository.save(buildTransationHistoryDTO(transferTransactionDto, TransactionType.DEPOSIT));
 
         return true;
     }
