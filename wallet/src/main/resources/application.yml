@@ -60,12 +60,10 @@ management:
       enabled: true  # Enable readiness checks for the application
     liveness-state:
       enabled: true  # Enable liveness checks to verify application health
-    endpoint:
-      shutdown:
-        enabled: true  # Enable the shutdown endpoint for graceful shutdowns
-      health:
-        probes:
-          enabled: true  # Enable detailed health checks
+  endpoint:
+    health:
+      probes:
+        enabled: true  # Enable detailed health checks
 
 endpoints:
   shutdown:

@@ -61,7 +61,7 @@ services:
     ports:
       - "8081:8081"  # Maps port 8081 on the host to port 8081 in the container
     healthcheck:  # Health check configuration to monitor the service's readiness
-      test: "curl --fail --silent localhost:8081/actuator/health/readiness | grep UP || exit 1"  # Command to check if the service is healthy
+      test: "curl --fail --silent localhost:8081/actuator/health/readiness  | grep UP || exit 1"  # Command to check if the service is healthy
       interval: 20s  # How often to perform the health check
       timeout: 5s  # Maximum time to wait for a health check response
       retries: 2  # Number of retries before considering the service unhealthy
