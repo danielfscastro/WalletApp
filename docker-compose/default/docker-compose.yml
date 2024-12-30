@@ -11,9 +11,9 @@ services:
       - KAFKA_CFG_PROCESS_ROLES=controller,broker  # Process roles for KRaft mode
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093  # Quorum voters for the controller
       # Listeners configuration
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093  # Configures listeners
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092  # Advertised listeners for clients
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT  # Security protocols
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,PLAINTEXT_SPRING_ALONE://:9094  # Configures listeners
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092,PLAINTEXT_SPRING_ALONE://:9094  # Advertised listeners for clients
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_SPRING_ALONE:PLAINTEXT  # Security protocols
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER  # Names of the controller listeners
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT  # Listener name for inter-broker communication
     extends:
@@ -73,7 +73,7 @@ services:
         condition: service_healthy
     environment:  # Environment variables for configuring the service
       SPRING_APPLICATION_NAME: "customer"  # Name of the Spring application
-      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"  # Kafka broker URL for message binding
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9094"  # Kafka broker URL for message binding
       SPRING_DATASOURCE_URL: "jdbc:mysql://customerdb:3306/customerdb"
     extends:
       file: common-config.yml
@@ -97,7 +97,7 @@ services:
         condition: service_healthy
     environment:  # Environment variables for configuring the service
       SPRING_APPLICATION_NAME: "wallet"  # Name of the Spring application
-      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"  # Kafka broker URL for message binding
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9094"  # Kafka broker URL for message binding
       SPRING_DATASOURCE_URL: "jdbc:mysql://walletdb:3306/walletdb"
     extends:
       file: common-config.yml
