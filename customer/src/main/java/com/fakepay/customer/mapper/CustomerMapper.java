@@ -1,5 +1,6 @@
 package com.fakepay.customer.mapper;
 
+import com.fakepay.customer.dto.CustomerDetailDto;
 import com.fakepay.customer.dto.CustomerDto;
 import com.fakepay.customer.dto.WalletMsgDto;
 import com.fakepay.customer.entity.Customer;
@@ -11,6 +12,13 @@ public class CustomerMapper {
         customerDto.setEmail(customer.getEmail());
         customerDto.setDocument(customer.getDocument());
         return customerDto;
+    }
+
+    public static CustomerDetailDto mapToCustomerDetailDto(Customer customer, CustomerDetailDto customerDetailDto) {
+        customerDetailDto.setName(customer.getName());
+        customerDetailDto.setEmail(customer.getEmail());
+        customerDetailDto.setDocument(customer.getDocument());
+        return customerDetailDto;
     }
 
     public static Customer mapToCustomer(CustomerDto customerDto, Customer customer) {

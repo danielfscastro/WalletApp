@@ -128,6 +128,8 @@ services:
     extends:
       file: common-config.yml
       service: microservice-db-config
+    volumes:
+      - "customer_db_data:/var/lib/mysql"
 
   walletdb:
     container_name: walletdb
@@ -138,10 +140,14 @@ services:
     extends:
       file: common-config.yml
       service: microservice-db-config
+    volumes:
+      - "wallet_db_data:/var/lib/mysql"
 
 volumes:
   kafka_data:  # Definition of the Kafka data volume
     driver: local  # Specifies using the local driver for volume storage
+  customer_db_data:
+  wallet_db_data:
 
 networks:
   wallet-app:  # Definition of the wallet-app network

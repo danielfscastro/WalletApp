@@ -1,11 +1,13 @@
 package com.fakepay.customer.controller;
 
 import com.fakepay.customer.constants.CustomerConstants;
+import com.fakepay.customer.dto.CustomerDetailDto;
 import com.fakepay.customer.dto.CustomerDto;
 import com.fakepay.customer.dto.ErrorResponseDto;
 import com.fakepay.customer.dto.ResponseDto;
 import com.fakepay.customer.service.ICustomerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -64,8 +66,8 @@ public class CustomerController {
     }
 
     @Operation(
-            summary = "Fetch Wallet Details REST API",
-            description = "REST API to fetch Customer & Wallet details based on a wallet number"
+            summary = "Fetch Customer Details REST API",
+            description = "REST API to fetch Customer & Wallet details based on customer document"
     )
     @ApiResponses({
             @ApiResponse(
@@ -82,10 +84,10 @@ public class CustomerController {
     }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDto> fetch(@RequestHeader("wallet-correlation-id") String correlationId,
-                                             @RequestParam String document) {
-        CustomerDto customerDto = iCustomerService.fetch(document,correlationId);
-        return ResponseEntity.status(HttpStatus.OK).body(customerDto);
+    public ResponseEntity<CustomerDetailDto> fetch(@Parameter(hidden = true) @RequestHeader("wallet-correlation-id") String correlationId,
+                                                   @RequestParam String document) {
+        CustomerDetailDto customerDetailDto = iCustomerService.fetch(document,correlationId);
+        return ResponseEntity.status(HttpStatus.OK).body(customerDetailDto);
     }
 
     private ResponseEntity<ResponseDto> buildResponseEntity(HttpStatus status, String statusCode, String message) {

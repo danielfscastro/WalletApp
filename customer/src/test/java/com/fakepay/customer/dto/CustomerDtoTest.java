@@ -23,7 +23,7 @@ public class CustomerDtoTest {
 
     @Test
     public void testValidCustomerDto() {
-        CustomerDto dto = new CustomerDto("Daniel Castro", "example@example.com", "12345678901234", null);
+        CustomerDto dto = new CustomerDto("Daniel Castro", "example@example.com", "12345678901234");
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
         assertTrue(violations.isEmpty(), "Expected no constraint violations for a valid CustomerDto");
@@ -31,7 +31,7 @@ public class CustomerDtoTest {
 
     @Test
     public void testNameShouldNotBeEmpty() {
-        CustomerDto dto = new CustomerDto("", "example@example.com", "12345678901234", null);
+        CustomerDto dto = new CustomerDto("", "example@example.com", "12345678901234");
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -40,7 +40,7 @@ public class CustomerDtoTest {
 
     @Test
     public void testEmailShouldNotBeEmpty() {
-        CustomerDto dto = new CustomerDto("Daniel Castro", "", "12345678901234", null);
+        CustomerDto dto = new CustomerDto("Daniel Castro", "", "12345678901234");
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -49,7 +49,7 @@ public class CustomerDtoTest {
 
     @Test
     public void testDocumentShouldNotBeEmpty() {
-        CustomerDto dto = new CustomerDto("Daniel Castro", "example@example.com", "", null);
+        CustomerDto dto = new CustomerDto("Daniel Castro", "example@example.com", "");
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -58,7 +58,7 @@ public class CustomerDtoTest {
 
     @Test
     public void testNameSizeConstraint() {
-        CustomerDto dto = new CustomerDto("This is a very long name that exceeds one hundred characters in length and should result in a validation error because it is not allowed", "example@example.com", "12345678901234", null);
+        CustomerDto dto = new CustomerDto("This is a very long name that exceeds one hundred characters in length and should result in a validation error because it is not allowed", "example@example.com", "12345678901234");
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());
@@ -70,7 +70,7 @@ public class CustomerDtoTest {
         // Create an email longer than 100 characters
         String longEmail = "this.is.a.verlong.email.address.that.exceeds.one.hundred.charactersffffffffffffffffffffff@example.com"; // This should exceed 100 characters
 
-        CustomerDto dto = new CustomerDto("Daniel Castro", longEmail, "123456", null); // Use a valid document string within limits
+        CustomerDto dto = new CustomerDto("Daniel Castro", longEmail, "123456"); // Use a valid document string within limits
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
 
@@ -83,7 +83,7 @@ public class CustomerDtoTest {
 
     @Test
     public void testDocumentSizeConstraint() {
-        CustomerDto dto = new CustomerDto("Daniel Castro", "example@example.com", "123456789012345", null);
+        CustomerDto dto = new CustomerDto("Daniel Castro", "example@example.com", "123456789012345");
 
         Set<ConstraintViolation<CustomerDto>> violations = validator.validate(dto);
         assertEquals(1, violations.size());

@@ -29,6 +29,4 @@ public class CustomerDto {
     @Size(max = 14, message = "Document must be at most 14 characters")
     @Schema(description = "Customer Document", example = "12345678901234")
     private String document;
-
-    private WalletDto wallet;
 }

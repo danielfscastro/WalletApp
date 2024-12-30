@@ -1,5 +1,6 @@
 package com.fakepay.customer.service.impl;
 
+import com.fakepay.customer.dto.CustomerDetailDto;
 import com.fakepay.customer.dto.CustomerDto;
 import com.fakepay.customer.dto.WalletDto;
 import com.fakepay.customer.entity.Customer;
@@ -43,18 +44,18 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public CustomerDto fetch(String document, String correlationId) {
+    public CustomerDetailDto fetch(String document, String correlationId) {
         Customer customer = customerRepository.findByDocument(document).orElseThrow(
                 () -> new ResourceNotFoundException("Customer", "document", document)
         );
 
-        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+        CustomerDetailDto customerDetailDto = CustomerMapper.mapToCustomerDetailDto(customer, new CustomerDetailDto());
 
         ResponseEntity<WalletDto> walletDtoResponseEntity = walletFeignClient.fetchWalletDetails(correlationId, customer.getDocument());
         if(walletDtoResponseEntity != null) {
-            customerDto.setWallet(walletDtoResponseEntity.getBody());
+            customerDetailDto.setWallet(walletDtoResponseEntity.getBody());
         }
 
-        return customerDto;
+        return customerDetailDto;
     }
 }
