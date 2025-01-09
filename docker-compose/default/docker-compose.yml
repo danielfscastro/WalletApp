@@ -32,8 +32,10 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    networks:
-      - wallet-app
+    networks: &loki-dns
+      wallet-app:
+        aliases:
+          - loki
 
   promtail:
     image: grafana/promtail:2.9.2
@@ -46,8 +48,20 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    networks:
-      - wallet-app
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
+  prometheus:
+    image: prom/prometheus:v2.50.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../grafana/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
 
   grafana:
     environment:
@@ -58,26 +72,20 @@ services:
       - sh
       - -euc
       - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-        - name: Loki
-          type: loki
-          access: proxy 
-          orgId: 1
-          url: http://loki:3100
-          basicAuth: false
-          isDefault: true
-          version: 1
-          editable: false
-        EOF
         /run.sh
     image: grafana/grafana:latest
+    healthcheck:
+      test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "3000:3000"
-    networks:
-      - wallet-app
+    volumes:
+      - ../grafana/datasource/datasource.yml:/etc/grafana/provisioning/datasources/ds.yaml
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
 
   configserver:  # Configuration server service
     image: "danielfscastro/configserver:s1"  # Docker image for the Config Server

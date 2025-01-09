@@ -35,6 +35,9 @@ management:
             enabled: true  # Enable readiness checks
         liveness-state:
             enabled: true  # Enable liveness checks
+    metrics:
+        tags:
+            application: ${spring.application.name}
 
 
 eureka:
