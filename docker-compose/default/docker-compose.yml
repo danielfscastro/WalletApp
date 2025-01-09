@@ -20,6 +20,65 @@ services:
       file: common-config.yml  # Loads additional configuration from common-config.yml
       service: network-deploy-service  # Extends the network-deploy-service
 
+  loki:
+    image: grafana/loki:2.9.2
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/config.yaml
+    volumes:
+      - ../grafana/loki/loki-config.yaml:/etc/loki/config.yaml
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3100/loki/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - wallet-app
+
+  promtail:
+    image: grafana/promtail:2.9.2
+    command: -config.file=/etc/promtail/config.yaml
+    volumes:
+      - ../grafana/promtail/promtail-config.yaml:/etc/promtail/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9080/promtail/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - wallet-app
+
+  grafana:
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /etc/grafana/provisioning/datasources
+        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
+        apiVersion: 1
+        datasources:
+        - name: Loki
+          type: loki
+          access: proxy 
+          orgId: 1
+          url: http://loki:3100
+          basicAuth: false
+          isDefault: true
+          version: 1
+          editable: false
+        EOF
+        /run.sh
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - wallet-app
+
   configserver:  # Configuration server service
     image: "danielfscastro/configserver:s1"  # Docker image for the Config Server
     container_name: configserver-ms  # Name for the container
