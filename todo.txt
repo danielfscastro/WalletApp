@@ -1,0 +1,2 @@
+mapping entity attributes with when neccesary
+@JsonProperty (access = JsonProperty.Access.WRITE_ONLY)
