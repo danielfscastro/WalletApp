@@ -1,19 +1,17 @@
 package com.fakepay.apigateway.router;
 
 import com.fakepay.apigateway.filters.ResponseTimeHeaderFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class ApiGatewayRouter {
 
     private ResponseTimeHeaderFilter responseTimeHeaderFilter;
-
-    public ApiGatewayRouter(ResponseTimeHeaderFilter responseTimeHeaderFilter) {
-        this.responseTimeHeaderFilter = responseTimeHeaderFilter;
-    }
 
     @Bean
     public RouteLocator routeConfig(RouteLocatorBuilder routeLocatorBuilder){
