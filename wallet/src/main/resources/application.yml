@@ -28,9 +28,8 @@ spring:
   sql:
     init:
       mode: always
-
   config:
-    import: optional:configserver:http://localhost:8080  # Import config from a config server, if available
+    import: "optional:configserver-ms:http://localhost:8080"  # Import config from a config server, if available
   cloud:
     function:
       definition: createWallet
@@ -76,7 +75,7 @@ logging:
   level:
     com:
       fakepay:
-        wallet: INFO  # Set log level for the wallet application package
+        wallet: ERROR  # Set log level for the wallet application package
     org:
       springframework: ERROR  # Set log level for Spring framework
     io:

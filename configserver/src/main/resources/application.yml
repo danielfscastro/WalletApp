@@ -43,5 +43,5 @@ logging:
     org:
       springframework:
         boot:
-          actuator: DEBUG  # Set detailed logging level for Spring Boot Actuator
-        cloud: DEBUG  # Set detailed logging level for Spring Cloud
+          actuator: ERROR  # Set detailed logging level for Spring Boot Actuator
+        cloud: ERROR  # Set detailed logging level for Spring Cloud

@@ -14,7 +14,7 @@ spring:
                     enabled: true #show gateway routes for applications when true
                     lowerCaseServiceId: true
     config:
-        import: optional:configserver:http://localhost:8080  # Import configuration from a config server
+        import: "optional:configserver-ms:http://localhost:8080" # Import configuration from a config server
 
 management:
     endpoints:
@@ -58,7 +58,7 @@ logging:
     level:
         com:
             fakepay:
-                apigateway: DEBUG
+                apigateway: ERROR
 
 resilience4j.circuitbreaker:
     configs:
