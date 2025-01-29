@@ -76,8 +76,6 @@ logging:
     com:
       fakepay:
         wallet: ERROR  # Set log level for the wallet application package
-    org:
-      springframework: ERROR  # Set log level for Spring framework
     io:
       springdoc: ERROR  # Set log level for SpringDoc
   pattern:

@@ -59,6 +59,8 @@ logging:
         com:
             fakepay:
                 apigateway: ERROR
+    pattern:
+        level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"  # Custom log pattern
 
 resilience4j.circuitbreaker:
     configs:

@@ -45,3 +45,8 @@ logging:
         boot:
           actuator: ERROR  # Set detailed logging level for Spring Boot Actuator
         cloud: ERROR  # Set detailed logging level for Spring Cloud
+    com:
+      fakepay:
+        configserver: ERROR
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"  # Custom log pattern

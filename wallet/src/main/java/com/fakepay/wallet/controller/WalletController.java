@@ -61,9 +61,8 @@ public class WalletController {
     }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<WalletDto> fetch(@RequestHeader("wallet-correlation-id") String correlationId,
-                                           @RequestParam String document) {
-        WalletDto walletDto = iWalletService.fetchWallet(document, correlationId);
+    public ResponseEntity<WalletDto> fetch(@RequestParam String document) {
+        WalletDto walletDto = iWalletService.fetchWallet(document);
         return ResponseEntity.status(HttpStatus.OK).body(walletDto);
     }
 

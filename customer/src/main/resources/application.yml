@@ -76,10 +76,8 @@ endpoints:
 logging:
   level:
     com:
-      demo:
-        wallet: ERROR  # Set log level for the application package
-    org:
-      springframework: ERROR  # Set log level for Spring framework
+      fakepay:
+        customer: ERROR  # Set log level for the application package
     io:
       springdoc: ERROR  # Set log level for SpringDoc
   pattern:

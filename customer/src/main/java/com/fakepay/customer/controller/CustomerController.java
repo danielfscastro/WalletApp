@@ -82,9 +82,8 @@ public class CustomerController {
     }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDetailDto> fetch(@Parameter(hidden = true) @RequestHeader("wallet-correlation-id") String correlationId,
-                                                   @RequestParam String document) {
-        CustomerDetailDto customerDetailDto = iCustomerService.fetch(document,correlationId);
+    public ResponseEntity<CustomerDetailDto> fetch(@RequestParam String document) {
+        CustomerDetailDto customerDetailDto = iCustomerService.fetch(document);
         return ResponseEntity.status(HttpStatus.OK).body(customerDetailDto);
     }
 

@@ -6,5 +6,5 @@ import com.fakepay.customer.dto.CustomerDto;
 public interface ICustomerService {
     public void create(CustomerDto customerDto);
 
-    public CustomerDetailDto fetch(String document, String correlationId);
+    public CustomerDetailDto fetch(String document);
 }

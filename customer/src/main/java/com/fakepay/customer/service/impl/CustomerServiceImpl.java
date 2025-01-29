@@ -44,14 +44,14 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public CustomerDetailDto fetch(String document, String correlationId) {
+    public CustomerDetailDto fetch(String document) {
         Customer customer = customerRepository.findByDocument(document).orElseThrow(
                 () -> new ResourceNotFoundException("Customer", "document", document)
         );
 
         CustomerDetailDto customerDetailDto = CustomerMapper.mapToCustomerDetailDto(customer, new CustomerDetailDto());
 
-        ResponseEntity<WalletDto> walletDtoResponseEntity = walletFeignClient.fetchWalletDetails(correlationId, customer.getDocument());
+        ResponseEntity<WalletDto> walletDtoResponseEntity = walletFeignClient.fetchWalletDetails(customer.getDocument());
         if(walletDtoResponseEntity != null) {
             customerDetailDto.setWallet(walletDtoResponseEntity.getBody());
         }
