@@ -108,6 +108,7 @@ services:
       - "9090:9090"
     volumes:
       - ../grafana/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
     extends:
       file: common-config.yml
       service: network-deploy-service
@@ -386,6 +387,7 @@ volumes:
   customer_db_data:
   wallet_db_data:
   keycloak_data:
+  prometheus_data:
 
 networks:
   wallet-app:  # Definition of the wallet-app network
