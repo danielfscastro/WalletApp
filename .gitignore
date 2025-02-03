@@ -1,4 +1,4 @@
-
+/.data/
 /.idea/
 /customer/target/
 **/*.class
@@ -6,3 +6,4 @@ target/
 **/target/**
 /target/
 **/*.jar
+/docker-compose/default/.data/
