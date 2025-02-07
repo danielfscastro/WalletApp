@@ -14,7 +14,12 @@ spring:
                     enabled: true #show gateway routes for applications when true
                     lowerCaseServiceId: true
     config:
-        import: "optional:configserver-ms:http://localhost:8080" # Import configuration from a config server
+        import: "optional:configserver:http://localhost:8080" # Import configuration from a config server
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    jwk-set-uri: ${JWK_SET_URI:http://localhost:7080/realms/fakepaydev/protocol/openid-connect/certs}
 
 management:
     endpoints:
@@ -69,3 +74,4 @@ resilience4j.circuitbreaker:
             permittedNumberOfCallsInHalfOpenState: 2
             failureRateThreshold: 50
             waitDurationInOpenState: 10000
+

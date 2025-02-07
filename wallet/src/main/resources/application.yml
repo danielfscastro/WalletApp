@@ -29,7 +29,7 @@ spring:
     init:
       mode: always
   config:
-    import: "optional:configserver-ms:http://localhost:8080"  # Import config from a config server, if available
+    import: "optional:configserver:http://localhost:8080"  # Import config from a config server, if available
   cloud:
     function:
       definition: createWallet
