@@ -12,8 +12,9 @@ services:
           memory: 700m  # Sets the memory limit for this service
     environment:
       JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-2.12.0.jar"
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://tempo:4318"
       OTEL_METRICS_EXPORTER: none
+      OTEL_JAVAAGENT_DEBUG: "true"
 
   microservice-config-server:  # Service for configuring Spring
     extends:

@@ -20,6 +20,12 @@ spring:
             resourceserver:
                 jwt:
                     jwk-set-uri: ${JWK_SET_URI:http://localhost:7080/realms/fakepaydev/protocol/openid-connect/certs}
+    data:
+        redis:
+            host: localhost  # Hostname or IP address of the Redis server
+            port: 6379  # Port number of the Redis server
+            connection-timeout: 2s  # Connection timeout for Redis
+            read-timeout: 1s  # Read timeout for Redis
 
 management:
     endpoints:
@@ -63,7 +69,9 @@ logging:
     level:
         com:
             fakepay:
-                apigateway: ERROR
+                apigateway: DEBUG
+        org:
+            springframework: DEBUG
     pattern:
         level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"  # Custom log pattern
 
